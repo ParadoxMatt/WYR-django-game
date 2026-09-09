@@ -12,11 +12,22 @@ class WYR_Users(models.Model):
 
     date_joined = models.DateField("Date user joined")
 
+    def __str__(self):
+        return self.first_name, self.last_name, self.username
+
+    def date_joined(self):
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.date_joined <= now
+
+    
+
 class Category(models.Model):
     #Stores all the categories going to the Scenario
     category = models.CharField(max_length=70)
-    
 
+    def __str__(self):
+        return self.category
+    
 
 class Scenario(models.Model):
     scenario_question = models.CharField(max_length=750)
