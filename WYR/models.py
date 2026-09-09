@@ -13,7 +13,13 @@ class WYR_Users(models.Model):
     date_joined = models.DateField("Date user joined")
 
     def __str__(self):
-        return self.first_name, self.last_name, self.username
+        return self.first_name
+
+    def __str__(self):
+        return self.last_name
+
+    def __str__(self):
+        return self.username
 
     def date_joined(self):
         now = timezone.now()
@@ -37,7 +43,7 @@ class Scenario(models.Model):
 
     date_published = models.DateTimeField("Date scenario was published")
 
-    created_by = models.ForeignKey(WYR_Users.username, on_delete=models.SET_NULL ,null=True)
+    created_by = models.ForeignKey(WYR_Users, on_delete=models.SET_NULL ,null=True)
 
     def __str__(self):
         return self.scenario_question
