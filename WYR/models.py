@@ -36,7 +36,8 @@ class Category(models.Model):
     
 
 class Scenario(models.Model):
-    scenario_question = models.CharField(max_length=750)
+    scenario_question_1 = models.CharField(max_length=75, default="")
+    scenario_question_2 = models.CharField(max_length=75, default="")
     votes = models.IntegerField(default=0)
     category_choice =  models.ManyToManyField(Category)
 
@@ -46,4 +47,7 @@ class Scenario(models.Model):
     created_by = models.ForeignKey(WYR_Users, on_delete=models.SET_NULL ,null=True)
 
     def __str__(self):
-        return self.scenario_question
+        return self.scenario_question_1
+
+    def __str__(self):
+        return self.scenario_question_2
