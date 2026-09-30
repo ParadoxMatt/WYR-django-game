@@ -6,24 +6,20 @@
     <title>Would you rather?</title>
 </head>
 <body>
-    <form action="{% url 'scenario:vote' scenario.id %}" method="post">
+    <form action="{% url 'WYR:votes' scenario.id %}" method="post">
     
         {% csrf_token %}
     
         <fieldset>
-            <button>
-                <!-- 
-                The button that's gonna have scenario 1
-                -->
-    
+            <Legend>Would you rather?...</Legend>
+
+            <button name="choice" value="1">
+                {{ scenario.scenario_question_1 }}
             </button>
     
     
-            <button>
-                <!-- 
-                The button that's gonna have scenario 2
-                -->
-    
+            <button name="choice" value="2">
+                {{ scenario.scenario_question_2 }}
             </button>
     
         </fieldset>

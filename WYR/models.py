@@ -38,7 +38,8 @@ class Category(models.Model):
 class Scenario(models.Model):
     scenario_question_1 = models.CharField(max_length=75, default="")
     scenario_question_2 = models.CharField(max_length=75, default="")
-    votes = models.IntegerField(default=0)
+    votesQ1 = models.IntegerField(default=0)
+    votesQ2 = models.IntegerField(default=0)
     category_choice =  models.ManyToManyField(Category)
 
 
