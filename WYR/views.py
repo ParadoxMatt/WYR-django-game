@@ -33,6 +33,7 @@ def votes(request, scenario_id):
             request,
             "WYR/SCQ.html",
             {
+                "scenario":question,
                 "option_1":question.scenario_question_1,
                 "option_2":question.scenario_question_2,
 
@@ -40,11 +41,79 @@ def votes(request, scenario_id):
             },
         )
     else:
-        if selected == "1":
+        if selected == "uno":
             question.votesQ1 +=1
             question.save()
-        else:
+        elif selected == "dos": 
             question.votesQ2 +=1
             question.save()
+
+    print(selected)
     
-    return HttpResponseRedirect(reverse("WYR:votes", args=(question.id),))
+    return TotalVotes(request,scenario_id)
+
+def TotalVotes(request, scenario_id):
+    question = get_object_or_404(Scenario, pk=scenario_id)
+    votes = question.votesQ1 + question.votesQ2
+
+    vote_percent1 = round((question.votesQ1/votes)*100, 2)
+    vote_percent2 = round((question.votesQ2/votes)*100, 2)
+
+    return render(
+        request,"WYR/Votes.html",
+        {
+            "scenario":question,
+            "option_1":question.scenario_question_1,
+            "option_2":question.scenario_question_2,
+            "Votes_1":question.votesQ1,
+            "Votes_2":question.votesQ2,
+            "unopercentage":vote_percent1,
+            "dospercentage":vote_percent2,
+            "Total_Votes":votes,
+
+        }
+    )
+
+#button to the next question
+def next_question(request, scenario_id):
+    current_question = get_object_or_404(Scenario, pk=scenario_id)
+    questions = list(Scenario.objects.order_by("date_published"))
+    position = questions.index(current_question)
+    print(len(questions))
+#^ Get the current question
+    if position >= len(questions)-1:
+        return render(
+            request,
+            "WYR/SCQ.html",
+            {
+                "scenario":current_question,
+                "error_message":"You have reached the end of the Questions"
+            },
+        )
+    else:
+        next_question = questions[position +1]
+
+    return HttpResponseRedirect(reverse("WYR:SCQ", args=(next_question.id,)))
+    #move on to the next one by increasing the index of the latest questions
+
+
+def prev_question(request, scenario_id):
+    current_question = get_object_or_404(Scenario, pk=scenario_id)
+    questions = list(Scenario.objects.order_by("date_published"))
+    position = questions.index(current_question)
+#^ Get the current question
+    if position == 0:
+        return render(
+            request,
+            "WYR/SCQ.html",
+            {
+                "scenario":current_question,
+                "error_message":"You have reached the start of the Questions"
+            },
+        )
+    else:
+        prev_question = questions[position -1]
+
+    return HttpResponseRedirect(reverse("WYR:SCQ", args=(prev_question.id,)))
+    #move back to the next one by decreasing the index of the latest questions
+    

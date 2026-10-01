@@ -13,18 +13,44 @@
         <fieldset>
             <Legend>Would you rather?...</Legend>
 
-            <button name="choice" value="1">
+            {% if error_message %}
+            <p class="error-message">
+                {{ error_message }}
+            </p>
+            {% endif %}
+
+            <button name="choice" value="uno">
                 {{ scenario.scenario_question_1 }}
             </button>
     
-    
-            <button name="choice" value="2">
+            <button name="choice" value="dos">
                 {{ scenario.scenario_question_2 }}
             </button>
     
         </fieldset>
     
     </form>
+
+    <section id="buttonsect">
+            
+                <form action="{% url 'WYR:prev' scenario.id %}" method="post">
+                    {% csrf_token %}
+            
+                    <input type="submit" value="Previous" id="prev" class="button">
+                </form>
+            
+                <a href="{% url 'WYR:index' %}" class="home-button">
+                    Go Home
+                </a>
+            
+                <form action="{% url 'WYR:next' scenario.id %}" method="post">
+                    {% csrf_token %}
+            
+                    <input type="submit" value="Next" id="next" class="button">
+                </form>
+            
+    </section>
+
     
     <footer>
         <p>&copy; 2026 Matthew Chihata</p>

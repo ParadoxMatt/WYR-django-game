@@ -6,6 +6,52 @@
     <title>Would you rather?</title>
 </head>
 <body>
-    Nothing here yet...
+    <form>
+
+        <fieldset>
+            <Legend>Would you rather?...</Legend>
+
+            {% if error_message %}
+            <p class="error-message">
+                {{ error_message }}
+            </p>
+            {% endif %}
+        
+            <p>
+                {{ option_1 }}
+                {{ Votes_1 }}
+                <p>{{ unopercentage }}</p>
+            </p>
+        
+        
+            <p>
+                {{ option_2 }}
+                {{ Votes_2 }}
+                <p>{{ dospercentage }}</p>
+            </p>
+        </fieldset>
+    </form>
+
+            <section id="buttonsect">
+            
+                <form action="{% url 'WYR:prev' scenario.id %}" method="post">
+                    {% csrf_token %}
+            
+                    <input type="submit" value="Previous" id="prev" class="button">
+                </form>
+            
+                <a href="{% url 'WYR:index' %}" class="home-button">
+                    Go Home
+                </a>
+            
+                <form action="{% url 'WYR:next' scenario.id %}" method="post">
+                    {% csrf_token %}
+            
+                    <input type="submit" value="Next" id="next" class="button">
+                </form>
+            
+            </section>
+
+    
 </body>
 </html>
